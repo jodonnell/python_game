@@ -1,0 +1,27 @@
+MAIN GAME LOOP RETHOUGHT
+
+There needs to be an opening menu
+
+then there needs to be a load level 
+Actual Game playing 
+Perhaps something that loads different sections of a level (like level 1-1 to level 1-2)
+A death state, where the level is reloaded (perhaps no difference then above)
+Cutscenes
+
+
+
+
+
+
+
+main game loop
+
+player - takes care of movement to player and state changes
+enemies - loops through enemies and does all ai, state changes, movements
+
+draw background
+draw enemies
+draw player
+
+'PEP8
+

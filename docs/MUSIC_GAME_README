@@ -1,0 +1,38 @@
+OK here we go
+
+game is a shooting game
+enemies movements and actions are based off music input
+
+so on one side we need to program the straight up normal actions of the game and completely wall it off from the music
+
+actions:
+enemies can be generated
+enemies can perform actions (attacks, not sure if anything else)
+enemies can collide 
+
+
+
+maybe a weapons class that bullets and lazers can derive frmo
+bullets could have player bullets and other enemy bullets
+
+
+
+
+
+############# SOUND
+
+I could preprocess a sound file and store the data in a temp array then play the sound streaming
+
+
+enemey movement hooked into sound
+enemy attacks (them actually firing) hooked into sound 
+enemy weapons (like the lazer itself) hooked into sound
+background hooked into sound
+your attack pattern can get bonuses based on sounds (maybe you can switch between frequencies and a light underneath you signals you to fire with the base or you can switch and fire with the treble etc)
+enemy generation hooked into sounds
+
+
+
+So maybe have a music controller class that takes the current sample and sends it out to all the different things at the time, observer pattern?
+
+The observer would be delightful but this does not control WHAT subscribes to the Music class.  WHAT WILL SUBSCRIBE, everything or is this TOO based off the music?

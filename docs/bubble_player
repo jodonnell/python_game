@@ -1,0 +1,90 @@
+
+The player will be based on a collection of states:
+
+
+StillState
+MoveRightState
+MoveLeftState
+
+GroundedState
+Jumping
+Falling
+
+NotShootingState
+Shooting
+
+Live
+Dead
+
+Some of these states need to be mutually exclusive and not others.
+
+Shooting:
+binary state shooting or not
+
+MoveRightState:
+Cannot enter MoveLeft until back in the NoneState
+
+MoveLeftState:
+Cannot enter MoveRight until back in the NoneState
+
+JumpingState:
+While jumping when you hit the apex you transition to either falling or grounded
+
+FallingState:
+During this state all you can do is continue to fall until the state transitions to grounded
+
+GroundedState:
+While in this state you can transition to either jumping or falling
+
+LiveState:
+This is the state you will be in until you die
+
+DeadState:
+Enter the death animation, reset player
+
+
+
+
+
+Enter MoveRight state when the player hits the input to move right, leave the state when the input is released
+Enter MoveLeft state when the player hits the input to move left, leave the state when the input is released
+
+Enter ShootingState when the input is hit to shoot.  The state is set back to NotShootingState after a set period of time.
+
+Falling
+
+
+
+
+
+
+
+
+
+
+
+
+
+CLASS INTERFACE
+
+public:
+
+jump()
+move_right()
+move_left()
+shoot()
+
+is_alive()
+get_position()
+
+# these can be done internally by checking on movement or on enemy movement
+is_touching_enemies(EnemyList Class(uses iterator))
+is_touching_wall(WallList Class)
+
+
+
+
+
+
+
+COULD CREATE A SPRITE FACTORY THAT IS IN CHARGE OF UPDATING EACH SPRITES LIST OF OTHER SPRITES.
