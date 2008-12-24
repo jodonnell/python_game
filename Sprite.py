@@ -1,5 +1,5 @@
 import pygame
-from conf import *
+from game.conf import *
 
 ################################################################################
 # Sprite class

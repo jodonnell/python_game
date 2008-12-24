@@ -1,10 +1,10 @@
-import Sprite
-from moving_states import MovingStates
-from aerial_states import AerialStates
-from conf import *
+from game.Sprite import Sprite
+from game.player.moving_states import MovingStates
+from game.player.aerial_states import AerialStates
+from game.conf import *
 import pygame
 
-class Player(Sprite.Sprite):
+class Player(Sprite):
     ''' The player class makes use of the state pattern.
     It contains three sets of states each set contains mutually exclusive behavior.
     For instance the player can be moving left, jumping, and attacking; but cannot
@@ -19,7 +19,7 @@ class Player(Sprite.Sprite):
         self.jump_speed = 4
         self.jump_height = 40
 
-        Sprite.Sprite.__init__(self, startPos)
+        Sprite.__init__(self, startPos)
         self.movement_state = MovingStates(self)
         self.aerial_state = AerialStates(self)
    

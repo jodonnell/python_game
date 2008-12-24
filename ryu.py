@@ -1,5 +1,5 @@
 import sys, pygame, random, os, Sprite, Player
-from conf import *
+from game.player.conf import *
 from pygame.constants import *
 
 pygame.init()

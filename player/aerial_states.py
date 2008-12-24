@@ -1,8 +1,8 @@
-
-from jumping_state import JumpingState
-#from double_jump_state import DoubleJumpState
-#from grounded_state import GroundedState
-#from falling_state import FallingState
+from game.player.jumping_state import JumpingState
+from game.player.double_jump_state import DoubleJumpState
+from game.player.grounded_state import GroundedState
+from game.player.falling_state import FallingState
+from game.player.falling_no_jump_state import FallingNoJumpState
 
 class AerialStates():
     """ Keeps track of the current movement state the player is in.  Needs
@@ -13,7 +13,7 @@ class AerialStates():
     def __init__(self, player):
         self.player = player
 #        self.set_aerial_state(self.get_falling_state())
-        self.set_aerial_state(self.get_jumping_state())
+        self.set_aerial_state(self.get_grounded_state())
 
     def process_input(self, input):
         """Given an input tuple which contains KEYUP or KEYDOWN event
@@ -45,6 +45,9 @@ class AerialStates():
 
     def get_grounded_state(self):
         return GroundedState(self.player)
+
+    def get_falling_no_jump_state(self):
+        return FallingNoJumpState(self.player)
 
     def set_player_direction(self, direction):
         "When the player changes direction the state must be notified so it displays the correct frame"

@@ -1,8 +1,8 @@
-from moving_left_state import MovingLeftState
-from moving_right_state import MovingRightState
-#from Player.DuckingState import DuckingState
-from still_state import StillState
-from conf import PLAYER_FACING_RIGHT, PLAYER_FACING_LEFT
+from game.player.moving_left_state import MovingLeftState
+from game.player.moving_right_state import MovingRightState
+#from game.player.ducking_state import DuckingState
+from game.player.still_state import StillState
+from game.conf import PLAYER_FACING_RIGHT, PLAYER_FACING_LEFT
 
 class MovingStates():
     """ Keeps track of the current movement state the player is in.  Needs

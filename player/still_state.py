@@ -1,4 +1,4 @@
-from conf import PLAYER_FACING_RIGHT, PLAYER_FACING_LEFT
+from game.conf import PLAYER_FACING_RIGHT, PLAYER_FACING_LEFT
 
 class StillState():
     "The state when the player is standing still."

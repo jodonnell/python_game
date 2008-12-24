@@ -1,7 +1,7 @@
 import sys, pygame, random, os, Sprite
-from player.control import Control
-from player.player import Player
-from conf import *
+from game.player.control import Control
+from game.player.player import Player
+from game.conf import *
 from pygame.constants import *
 
 
@@ -47,7 +47,7 @@ while 1:
     
     playerGroup.draw(screen)
 
-    clock.tick(30)
+    clock.tick(3000)
     pygame.display.flip()
     
     game_loops += 1
