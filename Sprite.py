@@ -4,11 +4,9 @@ from conf import *
 ################################################################################
 # Sprite class
 class Sprite(pygame.sprite.Sprite):
-    speed = []
-    image = '';
     rect = '';
     
-    def __init__(self, imagePath, start, speed):
+    def __init__(self, start):
         ''' Constructor for the Sprite class
         imagePath - a string containing the path to the image file
         start - a tuple containing starting X and Y coords
@@ -16,14 +14,9 @@ class Sprite(pygame.sprite.Sprite):
         '''
         pygame.sprite.Sprite.__init__(self)
         
-        self.image = pygame.image.load(imagePath)
-        self.image = self.image.convert_alpha()
-
         startX, startY = start;
         self.rect = self.image.get_bounding_rect()
         self.rect = self.rect.move(startX, startY)
-        
-        self.speed = speed
     
     def update(self, *args):
         ''' When this is called the all updates to the object should be done
