@@ -1,0 +1,7 @@
+the main game loop consists of 
+
+1. redraw background
+2. draw tiles 
+3. process enemies
+4. process player projectiles
+5. process player
