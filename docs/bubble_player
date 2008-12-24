@@ -30,6 +30,9 @@ Cannot enter MoveRight until back in the NoneState
 JumpingState:
 While jumping when you hit the apex you transition to either falling or grounded
 
+Double Jump:
+While jumping you can jump again.
+
 FallingState:
 During this state all you can do is continue to fall until the state transitions to grounded
 
@@ -59,10 +62,16 @@ Falling
 
 
 
+PLAYER control flow
+check for collision with enemy
+process input
+Delegate to state
 
 
-
-
+Move right state:
+first make sure move is legal 
+then move right
+check to see if falling state
 
 
 CLASS INTERFACE
@@ -81,7 +90,8 @@ get_position()
 is_touching_enemies(EnemyList Class(uses iterator))
 is_touching_wall(WallList Class)
 
-
+private:
+compose an object that takes care of input
 
 
 
