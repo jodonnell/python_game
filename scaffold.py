@@ -1,4 +1,4 @@
-import sys, pygame, random, os, Sprite
+import sys, pygame
 from game.player.control import Control
 from game.player.player import Player
 from game.conf import *
