@@ -2,7 +2,11 @@ from game.Sprite import Sprite
 from game.player.moving_states import MovingStates
 from game.player.aerial_states import AerialStates
 from game.conf import *
+from game import log
 import pygame
+
+MOVE_TOP = 1
+logger = log.logging.getLogger('player')
 
 class Player(Sprite):
     ''' The player class makes use of the state pattern.
@@ -14,7 +18,7 @@ class Player(Sprite):
         """The constructor takes a tuple startPos which will be used as the players starting position, it also takes a control object that contains 
         the players control configuration"""
         self.load_frames()
-        self.image = self._STILL_RIGHT_FRAME
+        self.image = self._STILL_RIGHT_FRAME['image']
         self.control = control
 
         self.movement_speed = 4
@@ -28,14 +32,22 @@ class Player(Sprite):
     def load_frames(self):
         "Loads all the frames for the sprite"
         import os
+        HORIZONTAL_FLIP = True
+        VERTICAL_FLIP = False
 
-        self._STILL_LEFT_FRAME = pygame.transform.flip( self.load_image( os.path.join('images', 'golem2.png') ), 1, 0)
-        self._MOVE_LEFT_FRAME_1 = pygame.transform.flip( self.load_image( os.path.join('images', 'golem1.png') ), 1, 0)
-        self._MOVE_LEFT_FRAME_2 = pygame.transform.flip( self.load_image( os.path.join('images', 'golem3.png') ), 1, 0)
+        self._STILL_LEFT_FRAME = self.create_frames(pygame.transform.flip( self.load_image( os.path.join('images', 'golem2.png') ), HORIZONTAL_FLIP, VERTICAL_FLIP))
+        self._MOVE_LEFT_FRAME_1 = self.create_frames(pygame.transform.flip( self.load_image( os.path.join('images', 'golem1.png') ), HORIZONTAL_FLIP, VERTICAL_FLIP))
+        self._MOVE_LEFT_FRAME_2 = self.create_frames(pygame.transform.flip( self.load_image( os.path.join('images', 'golem3.png') ), HORIZONTAL_FLIP, VERTICAL_FLIP))
+        self._DUCK_LEFT_FRAME = self.create_frames(pygame.transform.flip( self.load_image( os.path.join('images', 'golem_duck.png') ), HORIZONTAL_FLIP, VERTICAL_FLIP))
 
-        self._STILL_RIGHT_FRAME = self.load_image( os.path.join('images', 'golem2.png') )
-        self._MOVE_RIGHT_FRAME_1 = self.load_image( os.path.join('images', 'golem1.png') )
-        self._MOVE_RIGHT_FRAME_2 = self.load_image( os.path.join('images', 'golem3.png') )
+        self._STILL_RIGHT_FRAME = self.create_frames(self.load_image( os.path.join('images', 'golem2.png') ))
+        self._MOVE_RIGHT_FRAME_1 = self.create_frames(self.load_image( os.path.join('images', 'golem1.png') ))
+        self._MOVE_RIGHT_FRAME_2 = self.create_frames(self.load_image( os.path.join('images', 'golem3.png') ))
+        self._DUCK_RIGHT_FRAME = self.create_frames(self.load_image( os.path.join('images', 'golem_duck.png') ))
+
+    def create_frames(self, image, dimension_change_behavior = MOVE_TOP):
+        rect = image.get_bounding_rect()
+        return {'image':image, 'rect':rect, 'dimension_change_behavior':dimension_change_behavior}
 
     def load_image(self, image_path):
         "loads the image and converts it to a format that blits quicklp"
@@ -77,6 +89,19 @@ class Player(Sprite):
         self.process_input(args[0])
         self.movement_state.do_action()
         self.aerial_state.do_action()
-        self.image = self.movement_state.state.get_animation()
-#        self.rect = self.rect.move(self.speed)
-        
+        self.change_image(self.movement_state.state.get_animation())
+
+    def change_image(self, new_frame):
+        if self.image is not new_frame['image']:
+            self.image = new_frame['image']
+
+            rect = new_frame['rect']
+
+            if self.rect.width != rect.width:
+                self.rect.width = rect.width
+
+            if rect.height != self.rect.height:
+                if new_frame['dimension_change_behavior'] == MOVE_TOP:
+                    move_by = self.rect.height - rect.height
+                    self.rect.height = rect.height
+                    self.rect.move_ip(0, move_by)

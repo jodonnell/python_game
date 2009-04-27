@@ -1,6 +1,6 @@
 from game.player.moving_left_state import MovingLeftState
 from game.player.moving_right_state import MovingRightState
-#from game.player.ducking_state import DuckingState
+from game.player.ducking_state import DuckingState
 from game.player.still_state import StillState
 from game.conf import PLAYER_FACING_RIGHT, PLAYER_FACING_LEFT
 

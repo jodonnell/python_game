@@ -7,7 +7,8 @@ from pygame.constants import *
 
 pygame.init()
 
-screen = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT), pygame.FULLSCREEN  )
+#screen = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT), pygame.FULLSCREEN  )
+screen = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 pygame.mouse.set_visible(False)
@@ -47,7 +48,7 @@ while 1:
     
     playerGroup.draw(screen)
 
-    clock.tick(3000)
+    clock.tick(30)
     pygame.display.flip()
     
     game_loops += 1
