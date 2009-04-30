@@ -27,11 +27,11 @@ class Level():
             self.level.append(Tile(tile_data[0], (tile_data[1], tile_data[2]))) # this should go to a factory for object creation
         # should sort based on tile_data[1]
 
-    def _sort(self):
-        self.tiles_ordered_left = self.level[:]
-        self.tiles_ordered_left.sort(lambda x,y: x.get_left_edge() > y.get_left_edge())
-        self.tiles_ordered_right = self.level[:]
-        self.tiles_ordered_right.sort(lambda x,y: x.get_right_edge() > y.get_right_edge())
+#     def _sort(self):
+#         self.tiles_ordered_left = self.level[:]
+#         self.tiles_ordered_left.sort(lambda x,y: x.get_left_edge() > y.get_left_edge())
+#         self.tiles_ordered_right = self.level[:]
+#         self.tiles_ordered_right.sort(lambda x,y: x.get_right_edge() > y.get_right_edge())
 
     def get_onscreen_tiles(self, left_bound, right_bound):
         """Returns a list of onscreen tiles, given two bounds
@@ -104,7 +104,7 @@ class Level():
         old_left_index = self.cached_left_tile_index
         self.cached_left_tile_index = new_left_tile_index + 1
 
-        return self.level[old_left_index, self.cached_left_tile_index - 1]
+        return self.level[old_left_index, self.cached_left_tile_index]
 
     def remove_right_tiles(self, new_right_bound):
         """ We need to start 
@@ -127,17 +127,8 @@ class Level():
 
         return self.level[tile_remove_index, old_right_index]
     
-    def get_player_start_pos_x(self):
-        "returns the x coord of the player start"
-        pass
-
     def get_player_start_abs_pos_x(self):
         "returns the players starting position in absolute coordinates"
         pass
 
 
---------------
-|           x|
-|
-|
--------------
