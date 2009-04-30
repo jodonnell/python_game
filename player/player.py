@@ -92,6 +92,9 @@ class Player(Sprite):
         self.change_image(self.movement_state.state.get_animation())
 
     def change_image(self, new_frame):
+        """Whenever the image is changed you should go through this method so 
+        it will do the correct thing when the old image and the new one
+        have different heights or widths"""
         if self.image is not new_frame['image']:
             self.image = new_frame['image']
 
