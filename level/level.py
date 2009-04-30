@@ -19,12 +19,16 @@ class NoTilesOnScreen(Exception):
 
 class Level():
     "Notes: THERE MUST ALWAYS BE ONE TILE ON SCREEN (make an assertion about this)"
-    def __init__():
+    def __init__(self):
         level_data = open('data/level1')
         self.level = []
         for tile_data in level_data:
             tile_data = tile_data.split(' ')
-            self.level.append(Tile(tile_data[0], (tile_data[1], tile_data[2]))) # this should go to a factory for object creation
+            tile_data = [int(x) for x in tile_data]
+            if tile_data[0]:
+                self.level.append(Tile(tile_data[0], (tile_data[1], tile_data[2]))) # this should go to a factory for object creation
+            else: # player start
+                self._player_start_abs_pos_x = tile_data[1]
         # should sort based on tile_data[1]
 
 #     def _sort(self):
@@ -49,8 +53,8 @@ class Level():
         
         self.cached_left_tile_index = first_tile
         self.cached_right_tile_index = last_tile
-
-        return self.level[first_tile, last_tile]
+        
+        return self.level[first_tile:last_tile]
 
     def new_left_tiles(self, new_left_bound):
         """ Called when the screen moves left.
@@ -129,6 +133,5 @@ class Level():
     
     def get_player_start_abs_pos_x(self):
         "returns the players starting position in absolute coordinates"
-        pass
-
+        return self._player_start_abs_pos_x
 

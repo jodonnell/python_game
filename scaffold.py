@@ -2,13 +2,15 @@ import sys, pygame
 from game.player.control import Control
 from game.player.player import Player
 from game.conf import *
+from game.level.level import Level
+from game.level.screen import Screen
 from pygame.constants import *
 
 
 pygame.init()
 
 #screen = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT), pygame.FULLSCREEN  )
-screen = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT))
+display = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 pygame.mouse.set_visible(False)
@@ -21,6 +23,10 @@ pygame.mouse.set_visible(False)
 playerGroup = pygame.sprite.Group();
 player = Player( (600, 480), Control() )
 player.add( playerGroup )
+
+tile_group = pygame.sprite.Group()
+level = Level()
+screen = Screen(level, tile_group)
 
 #################################################################################
 # MAIN GAME LOOP
@@ -36,6 +42,9 @@ while 1:
             if event.key == K_q:
                 print sum_fps / game_loops
                 sys.exit()
+
+            elif event.key == K_r:
+                screen.move_right(1)
             else:
                 inputs.append( (pygame.KEYDOWN, event.key) )
 
@@ -44,9 +53,10 @@ while 1:
 
     playerGroup.update(inputs)
     
-    screen.fill(BLACK)
+    display.fill(BLACK)
     
-    playerGroup.draw(screen)
+    playerGroup.draw(display)
+    tile_group.draw(display)
 
     clock.tick(30)
     pygame.display.flip()

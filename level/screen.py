@@ -6,17 +6,17 @@ For collision detection, and
 This class deals interally with relative positions, but all contact with other classes is done using absolution positions
 """
 
-class screen():
+class Screen():
     def __init__(self, level, tile_group):
         self.level = level
-        player_start = self.level.get_player_start_pos_x()
+        player_start = self.level.get_player_start_abs_pos_x()
         self.screen_left_end_abs_pos = player_start - (conf.SCREEN_WIDTH / 2) # this assumes player starts in the middle
         self.screen_right_end_abs_pos = player_start + (conf.SCREEN_WIDTH / 2)
 
         self.tile_group = tile_group
-        self.tile_group.add(self.level.get_onscreen_tiles(self.screen_left_end_abs_pos, self.screen_right_end_abs_pos))
+        self.tile_group.add(*self.level.get_onscreen_tiles(self.screen_left_end_abs_pos, self.screen_right_end_abs_pos))
 
-    def move_screen(shift_screen_amount):
+    def move_screen(self, shift_screen_amount):
         self.screen_left_end_abs_pos += shift_screen_amount
         self.screen_right_end_abs_pos += shift_screen_amount
 
