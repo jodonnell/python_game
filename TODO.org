@@ -1,0 +1,9 @@
+
+
+* Game
+** Currently you can both duck and jump, must figure out how to have two seperate state machines talk
+** Abstract states into usable by by other stateful objects as well as players
+** Level init should use factory for object creation to append to level
+
+
+All onscreen objects must be able to return there right and left absolete edge
