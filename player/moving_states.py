@@ -43,7 +43,7 @@ class MovingStates():
         """ Does whatever action is appropriate for the current state
         the player is in.
         """
-        self.state.do_action()
+        return self.state.do_action()
 
     def set_movement_state(self, movement_state):
         self.state = movement_state

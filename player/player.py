@@ -8,6 +8,8 @@ import pygame
 MOVE_TOP = 1
 logger = log.logging.getLogger('player')
 
+CENTER_OF_SCREEN = 600
+
 class Player(Sprite):
     ''' The player class makes use of the state pattern.
     It contains three sets of states each set contains mutually exclusive behavior.
@@ -87,9 +89,10 @@ class Player(Sprite):
         Then delegates to the player states to do the correct action for the state they are in.
         Then sets the correct frame for the next screen update."""
         self.process_input(args[0])
-        self.movement_state.do_action()
+        move = self.movement_state.do_action()
         self.aerial_state.do_action()
         self.change_image(self.movement_state.state.get_animation())
+        return move
 
     def change_image(self, new_frame):
         """Whenever the image is changed you should go through this method so 
@@ -108,3 +111,12 @@ class Player(Sprite):
                     move_by = self.rect.height - rect.height
                     self.rect.height = rect.height
                     self.rect.move_ip(0, move_by)
+
+    def move_rect_x(self, move):
+        self.rect.left += move
+
+    def is_player_left_of_center(self):
+        return self.rect.left < CENTER_OF_SCREEN
+
+    def is_player_right_of_center(self):
+        return self.rect.left > CENTER_OF_SCREEN

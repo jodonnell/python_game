@@ -11,11 +11,10 @@ class MovingRightState():
         return self._animation[self.animation_index]
 
     def do_action(self):
-        self.move_right()
+        return self.move_right()
 
     def move_right(self):
         "move right"
-        self.player.rect[0] += self.player.movement_speed
         self.frame_count += 1
         
         if self.frame_count == 8:
@@ -23,6 +22,8 @@ class MovingRightState():
             self.animation_index += 1
             if self.animation_index == len(self._animation):
                 self.animation_index = 0
+
+        return self.player.movement_speed
 
     def move_left(self):
         "transition state to move right"

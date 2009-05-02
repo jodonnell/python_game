@@ -1,4 +1,9 @@
+import pygame
+
 from game.level.tile import Tile
+from game.level.view import View
+from game.player.player import Player
+from game.player.control import Control
 
 ####
 # oh fuck what about a tile that is extremely wide
@@ -18,6 +23,10 @@ class NoTilesOnScreen(Exception):
     pass
 
 class Level():
+    """ The level is in charge of loading a level and creating a representation of it by loading
+    all the different objects into a level.  It also is in charge of finding out what objects
+    should be drawn to the screen which it does by adding to the specific groups.
+    """
     "Notes: THERE MUST ALWAYS BE ONE TILE ON SCREEN (make an assertion about this)"
     def __init__(self):
         level_data = open('data/level1')
@@ -29,7 +38,17 @@ class Level():
                 self.level.append(Tile(tile_data[0], (tile_data[1], tile_data[2]))) # this should go to a factory for object creation
             else: # player start
                 self._player_start_abs_pos_x = tile_data[1]
-        # should sort based on tile_data[1]
+
+        
+        self.player_group = pygame.sprite.Group()
+        self.player = Player( (600, 480), Control() )
+        self.player_group.add(self.player)
+
+        self.view = View(self)
+
+        self.tile_group = pygame.sprite.Group()
+        self.tile_group.add(*self.get_onscreen_tiles(self.view.view_left_end_abs_pos, self.view.view_right_end_abs_pos))
+
 
 #     def _sort(self):
 #         self.tiles_ordered_left = self.level[:]
@@ -61,6 +80,7 @@ class Level():
         We have the last index for the leftern most tile so start there
         Decrement towards zero until a tile is found that is no longer
         within the new bound"""
+        tile_to_check = 0
         for tile_to_check in range(self.cached_left_tile_index, 0):
             if self.level[tile_to_check].get_right_edge() >= new_left_bound:
                 tile_to_check -= 1
@@ -77,7 +97,12 @@ class Level():
         until you find a tile that is still off screen
         """
         tile_to_check = self.cached_right_tile_index
-        while self.level[tile_to_check + 1].get_left_edge() >= new_right_bound:
+
+        if len(self.level) > tile_to_check + 1:
+            tile_to_check += 1
+
+        while len(self.level) <= tile_to_check \
+                and (self.level[tile_to_check].get_left_edge() >= new_right_bound):
             tile_to_check += 1
 
         if tile_to_check == self.cached_right_tile_index:
@@ -135,3 +160,42 @@ class Level():
         "returns the players starting position in absolute coordinates"
         return self._player_start_abs_pos_x
 
+
+    def update_screen(self, inputs):
+        self.update_player(inputs)
+
+        for tile_to_update in range(self.cached_left_tile_index, self.cached_right_tile_index):
+            self.level[tile_to_update].update(self.view)
+
+
+    def update_player(self, inputs):
+        """ The input is sent to the player.  This updates the players movement and state as well as animation.  If the player
+        moves left or right it will return the movement so the level can determine whether it should move the screen
+        or the player rectangle
+        """
+        move = self.player.update(inputs)
+
+        moving = move is not None
+
+        moving_right = moving and move > 0
+        moving_left = moving and move < 0
+        
+        right_end_of_level = self.level[-1:][0].get_right_edge()
+        left_end_of_level = self.level[0].get_left_edge()
+
+        try:
+            right_edge_of_level_reached = self.view.get_right_end_of_view() + move > right_end_of_level
+            left_edge_of_level_reached = self.view.get_left_end_of_view() + move < left_end_of_level
+        except TypeError: # for None type error of move, these vars will not be used if move is None
+            pass
+
+        if moving_right and (right_edge_of_level_reached or self.player.is_player_left_of_center()):
+            self.player.move_rect_x(move)
+        elif moving_left and (left_edge_of_level_reached or self.player.is_player_right_of_center()):
+            self.player.move_rect_x(move)
+        elif moving_left or moving_right:
+            self.view.move_view(move)
+
+    def draw_screen(self, display):
+        self.player_group.draw(display)
+        self.tile_group.draw(display)
