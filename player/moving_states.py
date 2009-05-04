@@ -15,19 +15,19 @@ class MovingStates():
         self.direction = PLAYER_FACING_RIGHT
         self.set_movement_state(self.get_still_state())
 
-    def process_input(self, input):
+    def process_input(self, input, level):
         """Given an input tuple which contains KEYUP or KEYDOWN event
         and the key press, sets the state
         """
         if input == self.player.control.get_left_key_pressed():
-            self.state.move_left()
+            self.state.move_left(level)
             self.direction = PLAYER_FACING_LEFT
 
         if input == self.player.control.get_left_key_released():
             self.state.stop_moving_left()
 
         if input == self.player.control.get_right_key_pressed():
-            self.state.move_right()
+            self.state.move_right(level)
             self.direction = PLAYER_FACING_RIGHT
 
         if input == self.player.control.get_right_key_released():
@@ -39,11 +39,11 @@ class MovingStates():
         if input == self.player.control.get_duck_key_released():
             self.state.stop_ducking()
 
-    def do_action(self):
+    def do_action(self, level):
         """ Does whatever action is appropriate for the current state
         the player is in.
         """
-        return self.state.do_action()
+        return self.state.do_action(level)
 
     def set_movement_state(self, movement_state):
         self.state = movement_state

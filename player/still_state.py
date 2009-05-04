@@ -14,14 +14,14 @@ class StillState():
     def get_animation(self):
         return self._animation
 
-    def do_action(self):
+    def do_action(self, level):
         pass
 
-    def move_left(self):
+    def move_left(self, level):
         "move left"
         self.player.movement_state.set_movement_state(self.player.movement_state.get_move_left_state())
 
-    def move_right(self):
+    def move_right(self, level):
         "transition state to move right"
         self.player.movement_state.set_movement_state(self.player.movement_state.get_move_right_state())
 

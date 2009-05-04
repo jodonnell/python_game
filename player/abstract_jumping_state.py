@@ -15,18 +15,18 @@ class AbstractJumpingState():
         else:
             return self._left_animation
 
-    def do_action(self):
-        self.jump()
+    def do_action(self, level):
+        self.jump(level)
 
-    def jump(self):
+    def jump(self, level):
         if self.frame_count > self.player.jump_height:
-            self.fall()
+            self.fall(level)
             return
 
         self.frame_count += 1
         self.player.rect[1] -= self.player.jump_speed 
     
-    def fall(self):
+    def fall(self, level):
         "Abstract"
         pass
     

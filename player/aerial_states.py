@@ -15,21 +15,21 @@ class AerialStates():
 #        self.set_aerial_state(self.get_falling_state())
         self.set_aerial_state(self.get_grounded_state())
 
-    def process_input(self, input):
+    def process_input(self, input, level):
         """Given an input tuple which contains KEYUP or KEYDOWN event
         and the key press, sets the state
         """
         if input == self.player.control.get_jump_key_pressed():
-            self.state.jump()
+            self.state.jump(level)
 
         if input == self.player.control.get_jump_key_released():
-            self.state.fall()
+            self.state.fall(level)
 
-    def do_action(self):
+    def do_action(self, level):
         """ Does whatever action is appropriate for the current state
         the player is in.
         """
-        self.state.do_action()
+        self.state.do_action(level)
 
     def set_aerial_state(self, aerial_state):
         self.state = aerial_state

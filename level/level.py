@@ -4,6 +4,8 @@ from game.level.tile import Tile
 from game.level.view import View
 from game.player.player import Player
 from game.player.control import Control
+from game import conf
+
 
 ####
 # oh fuck what about a tile that is extremely wide
@@ -41,7 +43,7 @@ class Level():
 
         
         self.player_group = pygame.sprite.Group()
-        self.player = Player( (600, 480), Control() )
+        self.player = Player( (conf.SCREEN_WIDTH / 2, conf.SCREEN_HEIGHT / 2), Control() )
         self.player_group.add(self.player)
 
         self.view = View(self)
@@ -162,40 +164,26 @@ class Level():
 
 
     def update_screen(self, inputs):
-        self.update_player(inputs)
+        self.player.update(inputs, self)
 
         for tile_to_update in range(self.cached_left_tile_index, self.cached_right_tile_index):
             self.level[tile_to_update].update(self.view)
 
-
-    def update_player(self, inputs):
-        """ The input is sent to the player.  This updates the players movement and state as well as animation.  If the player
-        moves left or right it will return the movement so the level can determine whether it should move the screen
-        or the player rectangle
-        """
-        move = self.player.update(inputs)
-
-        moving = move is not None
-
-        moving_right = moving and move > 0
-        moving_left = moving and move < 0
-        
-        right_end_of_level = self.level[-1:][0].get_right_edge()
-        left_end_of_level = self.level[0].get_left_edge()
-
-        try:
-            right_edge_of_level_reached = self.view.get_right_end_of_view() + move > right_end_of_level
-            left_edge_of_level_reached = self.view.get_left_end_of_view() + move < left_end_of_level
-        except TypeError: # for None type error of move, these vars will not be used if move is None
-            pass
-
-        if moving_right and (right_edge_of_level_reached or self.player.is_player_left_of_center()):
-            self.player.move_rect_x(move)
-        elif moving_left and (left_edge_of_level_reached or self.player.is_player_right_of_center()):
-            self.player.move_rect_x(move)
-        elif moving_left or moving_right:
-            self.view.move_view(move)
-
     def draw_screen(self, display):
         self.player_group.draw(display)
         self.tile_group.draw(display)
+
+    def get_first_tile(self):
+        return self.level[0]
+
+    def get_last_tile(self):
+        return self.level[-1:][0]
+
+    def get_right_end_of_view(self):
+        return self.view.get_right_end_of_view()
+
+    def get_left_end_of_view(self):
+        return self.view.get_left_end_of_view()
+
+    def move_view(self, move):
+        self.view.move_view(move)

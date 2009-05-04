@@ -4,7 +4,6 @@ from game.conf import *
 from game.level.level import Level
 from pygame.constants import *
 
-
 pygame.init()
 
 #display = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT), pygame.FULLSCREEN  )

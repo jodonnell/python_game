@@ -6,6 +6,8 @@ from game import log
 import pygame
 
 MOVE_TOP = 1
+CUT_OFF_RIGHT = 1
+CUT_OFF_LEFT = 2
 logger = log.logging.getLogger('player')
 
 CENTER_OF_SCREEN = 600
@@ -28,8 +30,11 @@ class Player(Sprite):
         self.jump_height = 40
 
         Sprite.__init__(self, startPos)
+        self.rect.left = startPos[0] - self.rect.width
+
         self.movement_state = MovingStates(self)
         self.aerial_state = AerialStates(self)
+
    
     def load_frames(self):
         "Loads all the frames for the sprite"
@@ -56,7 +61,6 @@ class Player(Sprite):
         image = pygame.image.load(image_path)
         return image.convert_alpha()
        
-
     def _is_movement_key(self, input):
         "Returns True if the key pressed or released was a movement key"
         if (input == self.control.get_left_key_pressed() 
@@ -76,23 +80,22 @@ class Player(Sprite):
         else:
             return False
 
-    def process_input(self, inputs):
+    def process_input(self, inputs, level):
         "Takes a list of player key inputs and processes them"
         for input in inputs:
             if self._is_movement_key(input):
-                self.movement_state.process_input(input)
+                self.movement_state.process_input(input, level)
             if self._is_jumping_key(input):
-                self.aerial_state.process_input(input)
+                self.aerial_state.process_input(input, level)
             
-    def update(self, *args):
+    def update(self, inputs, level):
         """First processes key events which could change player state.
         Then delegates to the player states to do the correct action for the state they are in.
         Then sets the correct frame for the next screen update."""
-        self.process_input(args[0])
-        move = self.movement_state.do_action()
-        self.aerial_state.do_action()
+        self.process_input(inputs, level)
+        self.movement_state.do_action(level)
+        self.aerial_state.do_action(level)
         self.change_image(self.movement_state.state.get_animation())
-        return move
 
     def change_image(self, new_frame):
         """Whenever the image is changed you should go through this method so 
@@ -116,7 +119,7 @@ class Player(Sprite):
         self.rect.left += move
 
     def is_player_left_of_center(self):
-        return self.rect.left < CENTER_OF_SCREEN
+        return self.rect.left < SCREEN_WIDTH / 2 - self.rect.width
 
     def is_player_right_of_center(self):
-        return self.rect.left > CENTER_OF_SCREEN
+        return self.rect.left > SCREEN_WIDTH / 2 - self.rect.width
