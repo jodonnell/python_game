@@ -49,7 +49,7 @@ class AbstractFallingState():
     def move_max_fall(self, level):
         move = self.player.jump_speed
         tmp = self.player.rect
-        self.player.rect = self.player.rect.move(0, self.player.jump_speed )
+        self.player.rect = self.player.rect.move(0, move)
         collides = spritecollide(self.player, level.tile_group, False)
         
         if collides:

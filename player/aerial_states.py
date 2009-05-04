@@ -12,7 +12,6 @@ class AerialStates():
     """
     def __init__(self, player):
         self.player = player
-#        self.set_aerial_state(self.get_falling_state())
         self.set_aerial_state(self.get_grounded_state())
 
     def process_input(self, input, level):
