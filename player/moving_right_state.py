@@ -27,7 +27,7 @@ class MovingRightState():
         "move right"
         move = self.player.movement_speed 
         right_end_of_level = level.get_last_tile().get_right_edge()
-        right_edge_of_level_reached = level.view.get_right_end_of_view() + move < right_end_of_level
+        right_edge_of_level_reached = level.view.get_right_end_of_view() + move > right_end_of_level
 
         move = self.move_right_max(move, level)
 
