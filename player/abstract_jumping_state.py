@@ -17,6 +17,8 @@ class AbstractJumpingState():
 
         self.frame_count = 0
         self.animation_index = 0
+        self.velocity = -self.player.jump_speed
+        self.gravity = .1
 
     def get_animation(self):
         if self.direction == PLAYER_FACING_RIGHT:
@@ -28,30 +30,27 @@ class AbstractJumpingState():
         self.jump(level)
 
     def jump(self, level):
+        self.velocity = -self.player.jump_speed + self.frame_count * self.gravity
         move = self.move_max_jump(level)
 
         if move >= 0:
             self.fall(level)
             return
 
-        if self.frame_count > self.player.jump_height:
-            self.fall(level)
-            return
-
         self.frame_count += 1
-        self.player.rect[1] -= self.player.jump_speed 
+        self.player.rect.top += self.velocity
     
     def move_max_jump(self, level):
-        move = -self.player.jump_speed
+
         tmp = self.player.rect
-        self.player.rect = self.player.rect.move(0, -self.player.jump_speed)
+        self.player.rect = self.player.rect.move(0, self.velocity)
         collides = spritecollide(self.player, level.tile_group, False)
         
         if collides:
-            move = collide_ceiling(self.player, collides, move)
+            self.velocity = collide_ceiling(self.player, collides, self.velocity)
 
         self.player.rect = tmp
-        return move
+        return self.velocity
 
 
     def fall(self, level):

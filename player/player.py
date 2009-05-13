@@ -26,8 +26,7 @@ class Player(Sprite):
         self.control = control
 
         self.movement_speed = 4
-        self.jump_speed = 4
-        self.jump_height = 40
+        self.jump_speed = 12
 
         Sprite.__init__(self, startPos)
         self.rect.left = startPos[0] - self.rect.width
@@ -96,7 +95,7 @@ class Player(Sprite):
         self.movement_state.do_action(level)
         self.aerial_state.do_action(level)
         self.change_image(self.movement_state.state.get_animation())
-
+ 
     def change_image(self, new_frame):
         """Whenever the image is changed you should go through this method so 
         it will do the correct thing when the old image and the new one

@@ -38,11 +38,6 @@ while 1:
             if event.key == K_q:
                 print sum_fps / game_loops
                 sys.exit()
-
-            elif event.key == K_r:
-                screen.move_right(30)
-            elif event.key == K_e:
-                screen.move_left(30)
             else:
                 inputs.append( (pygame.KEYDOWN, event.key) )
 
@@ -51,11 +46,7 @@ while 1:
 
     display.fill(BLACK)
 
-    level.update_screen(inputs)
-    
-#    playerGroup.draw(display)
-#    tile_group.draw(display)
-
+    level.update_screen(inputs)    
     level.draw_screen(display)
 
     clock.tick(300)

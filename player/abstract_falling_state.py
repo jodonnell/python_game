@@ -17,6 +17,8 @@ class AbstractFallingState():
 
         self.frame_count = 0
         self.animation_index = 0
+        self.velocity = -self.player.jump_speed
+        self.gravity = .2
 
     def get_animation(self):
         if self.direction == PLAYER_FACING_RIGHT:
@@ -34,11 +36,12 @@ class AbstractFallingState():
     def fall(self, level):
         move = self.move_max_fall(level)
 
+        self.player.rect.top += move
+
         if move <= 0:
             return self.grounded()
 
         self.frame_count += 1
-        self.player.rect.top += move
 
     def grounded(self):
         self.player.aerial_state.set_aerial_state(self.player.aerial_state.get_grounded_state())
@@ -48,12 +51,14 @@ class AbstractFallingState():
 
     def move_max_fall(self, level):
         move = self.player.jump_speed
-        tmp = self.player.rect
+        old_rect = self.player.rect
         self.player.rect = self.player.rect.move(0, move)
+
         collides = spritecollide(self.player, level.tile_group, False)
         
         if collides:
             move = collide_floor(self.player, collides, move)
+            move += self.player.jump_speed
 
-        self.player.rect = tmp
+        self.player.rect = old_rect
         return move
