@@ -1,8 +1,6 @@
-from game.player.jumping_state import JumpingState
-from game.player.double_jump_state import DoubleJumpState
+from game.player.abstract_jumping_state import JumpingState
 from game.player.grounded_state import GroundedState
-from game.player.falling_state import FallingState
-from game.player.falling_no_jump_state import FallingNoJumpState
+from game.player.abstract_falling_state import FallingState
 
 class AerialStates():
     """ Keeps track of the current movement state the player is in.  Needs
@@ -39,14 +37,8 @@ class AerialStates():
     def get_falling_state(self):
         return FallingState(self.player)
 
-    def get_double_jump_state(self):
-        return DoubleJumpState(self.player)
-
     def get_grounded_state(self):
         return GroundedState(self.player)
-
-    def get_falling_no_jump_state(self):
-        return FallingNoJumpState(self.player)
 
     def set_player_direction(self, direction):
         "When the player changes direction the state must be notified so it displays the correct frame"

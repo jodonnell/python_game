@@ -1,7 +1,6 @@
 from pygame.sprite import spritecollide
 from game.conf import PLAYER_FACING_RIGHT
 
-
 def collide_ceiling(player, collides, move):
     ceilings = [ceiling for ceiling in collides if player.rect.top <= ceiling.rect.bottom]
     if ceilings:
@@ -9,7 +8,7 @@ def collide_ceiling(player, collides, move):
         return ceilings[0].rect.bottom - player.rect.top
     return move
 
-class AbstractJumpingState():
+class JumpingState():
     def __init__(self, player):
         self.player = player
         self._right_animation = ()
@@ -52,10 +51,8 @@ class AbstractJumpingState():
         self.player.rect = tmp
         return self.velocity
 
-
     def fall(self, level):
-        "Abstract"
-        pass
+        self.player.aerial_state.set_aerial_state(self.player.aerial_state.get_falling_state())
     
     def grounded(self):
         self.player.aerial_state.set_aerial_state(self.player.aerial_state.get_grounded_state())

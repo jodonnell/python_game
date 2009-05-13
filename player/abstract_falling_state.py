@@ -9,7 +9,7 @@ def collide_floor(player, collides, move):
         return floors[0].rect.top - player.rect.bottom
     return move
 
-class AbstractFallingState():
+class FallingState():
     def __init__(self, player):
         self.player = player
         self._right_animation = ()
@@ -30,7 +30,6 @@ class AbstractFallingState():
         self.fall(level)
 
     def jump(self, level):
-        "Abstract"
         pass
     
     def fall(self, level):
