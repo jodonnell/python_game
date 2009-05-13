@@ -1,5 +1,4 @@
 import sys, pygame
-from game.player.control import Control
 from game.conf import *
 from game.level.level import Level
 from pygame.constants import *
