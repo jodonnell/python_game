@@ -1,12 +1,12 @@
 import sys, pygame
-from game.conf import *
+from game import conf
 from game.level.level import Level
 from pygame.constants import *
 
 pygame.init()
 
-#display = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT), pygame.FULLSCREEN  )
-display = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT))
+#display = pygame.display.set_mode( (conf.SCREEN_WIDTH, conf.SCREEN_HEIGHT), pygame.FULLSCREEN  )
+display = pygame.display.set_mode( (conf.SCREEN_WIDTH, conf.SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 pygame.mouse.set_visible(False)
@@ -43,7 +43,7 @@ while 1:
         if event.type == pygame.KEYUP:
             inputs.append( (pygame.KEYUP, event.key) )
 
-    display.fill(BLACK)
+    display.fill(conf.BLACK)
 
     level.update_screen(inputs)    
     level.draw_screen(display)

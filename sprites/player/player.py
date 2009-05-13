@@ -1,7 +1,7 @@
 from game.sprites.sprite import Sprite
 from game.sprites.player.moving_states import MovingStates
 from game.sprites.player.aerial_states import AerialStates
-from game.conf import *
+from game import conf
 from game import log
 import pygame
 
@@ -118,7 +118,7 @@ class Player(Sprite):
         self.rect.left += move
 
     def is_player_left_of_center(self):
-        return self.rect.left < SCREEN_WIDTH / 2 - self.rect.width
+        return self.rect.left < conf.SCREEN_WIDTH / 2 - self.rect.width
 
     def is_player_right_of_center(self):
-        return self.rect.left > SCREEN_WIDTH / 2 - self.rect.width
+        return self.rect.left > conf.SCREEN_WIDTH / 2 - self.rect.width
