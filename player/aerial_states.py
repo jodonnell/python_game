@@ -1,6 +1,6 @@
-from game.player.abstract_jumping_state import JumpingState
+from game.player.jumping_state import JumpingState
 from game.player.grounded_state import GroundedState
-from game.player.abstract_falling_state import FallingState
+from game.player.falling_state import FallingState
 
 class AerialStates():
     """ Keeps track of the current movement state the player is in.  Needs
