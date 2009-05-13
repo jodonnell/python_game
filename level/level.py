@@ -2,8 +2,8 @@ import pygame
 
 from game.level.tile import Tile
 from game.level.view import View
-from game.player.player import Player
-from game.player.control import Control
+from game.sprites.player.player import Player
+from game.sprites.player.control import Control
 from game import conf
 
 

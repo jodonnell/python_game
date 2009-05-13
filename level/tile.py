@@ -1,6 +1,6 @@
 import os
 import pygame
-from game.Sprite import Sprite
+from game.sprites.sprite import Sprite
 
 TILE_PROPERTIES = {
     1:{'image_path': ('images', 'tile.png') }
