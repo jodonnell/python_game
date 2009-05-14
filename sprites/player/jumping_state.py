@@ -33,25 +33,27 @@ class JumpingState():
         move = self.move_max_jump(level)
 
         if move >= 0:
-            self.fall(level)
+            self.fall(None)
             return
 
         self.frame_count += 1
         self.player.rect.top += self.velocity
     
     def move_max_jump(self, level):
+        move = self.velocity
 
         tmp = self.player.rect
         self.player.rect = self.player.rect.move(0, self.velocity)
         collides = spritecollide(self.player, level.tile_group, False)
         
         if collides:
-            self.velocity = collide_ceiling(self.player, collides, self.velocity)
+            move = collide_ceiling(self.player, collides, self.velocity)
+            move += self.velocity
 
         self.player.rect = tmp
-        return self.velocity
+        return move
 
-    def fall(self, level):
+    def fall(self, level=None):
         self.player.aerial_state.set_aerial_state(self.player.aerial_state.get_falling_state())
     
     def grounded(self):
