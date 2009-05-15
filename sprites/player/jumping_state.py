@@ -1,12 +1,5 @@
 from pygame.sprite import spritecollide
-from game.conf import PLAYER_FACING_RIGHT
-
-def collide_ceiling(player, collides, move):
-    ceilings = [ceiling for ceiling in collides if player.rect.top <= ceiling.rect.bottom]
-    if ceilings:
-        ceilings.sort(lambda x,y: x.rect.bottom - y.rect.bottom)
-        return ceilings[0].rect.bottom - player.rect.top
-    return move
+from game.conf import PLAYER_FACING_RIGHT, GRAVITY
 
 class JumpingState():
     def __init__(self, player):
@@ -16,8 +9,6 @@ class JumpingState():
 
         self.frame_count = 0
         self.animation_index = 0
-        self.velocity = -self.player.jump_speed
-        self.gravity = .1
 
     def get_animation(self):
         if self.direction == PLAYER_FACING_RIGHT:
@@ -29,28 +20,36 @@ class JumpingState():
         self.jump(level)
 
     def jump(self, level):
-        self.velocity = -self.player.jump_speed + self.frame_count * self.gravity
-        move = self.move_max_jump(level)
+        move = self._get_movement_distance(level)
 
-        if move >= 0:
+        if move == 0:
             self.fall(None)
             return
 
         self.frame_count += 1
-        self.player.rect.top += self.velocity
+        self.player.rect.top += move
     
-    def move_max_jump(self, level):
-        move = self.velocity
+    def _get_movement_distance(self, level):
+        """Looks at move and sees if player can move that far, if not returns the max amount
+        the player is allowed to move, the amount of the move is determined by gravity and the classic
+        physics formula velocity initial + time * acceleration"""
+        velocity = old_velocity = int(round(-self.player.jump_speed + self.frame_count * GRAVITY))
+        self.player.rect.top += velocity
 
-        tmp = self.player.rect
-        self.player.rect = self.player.rect.move(0, self.velocity)
         collides = spritecollide(self.player, level.tile_group, False)
-        
         if collides:
-            move = collide_ceiling(self.player, collides, self.velocity)
-            move += self.velocity
+            velocity = self._get_movement_until_collision(collides, velocity)
 
-        self.player.rect = tmp
+        self.player.rect.top -= old_velocity
+        return velocity
+
+    def _get_movement_until_collision(self, collides, move):
+        """Given a list of tiles that collide with the player finds the one farthest to the bottom
+        and returns the number of pixels the player can move until it is within the tile"""
+        ceilings = [ceiling for ceiling in collides if self.player.rect.top <= ceiling.rect.bottom]
+        if ceilings:
+            ceilings.sort(lambda x,y: x.rect.bottom - y.rect.bottom)
+            move += ceilings[0].rect.bottom - self.player.rect.top
         return move
 
     def fall(self, level=None):

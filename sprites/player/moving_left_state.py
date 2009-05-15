@@ -17,7 +17,7 @@ class MovingLeftState():
 
     def move_left(self, level):
         "move left"
-        move = self.get_movement_distance(level)
+        move = self._get_movement_distance(level)
 
         if move == 0: # trying to move into wall
             self.frame_count = 0
@@ -32,9 +32,9 @@ class MovingLeftState():
         else:
             level.move_view(move)
 
-        self.update_animation()
+        self._update_animation()
 
-    def update_animation(self):
+    def _update_animation(self):
         """Updates the frame count and animation"""
         self.frame_count += 1
         
@@ -44,7 +44,7 @@ class MovingLeftState():
             if self.animation_index == len(self._animation):
                 self.animation_index = 0
         
-    def get_movement_distance(self, level):
+    def _get_movement_distance(self, level):
         """Looks at move and sees if player can move that far, if not returns the max amount
         the player is allowed to move"""
 

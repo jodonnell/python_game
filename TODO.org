@@ -7,5 +7,3 @@
 
 
 All onscreen objects must be able to return there right and left absolete edge
-** Make jump faster at first and slower at top
-** Remove double jump
