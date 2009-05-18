@@ -36,3 +36,9 @@ class FallingState(AbstractFallingState):
 
     def set_player_direction(self, direction):
         self.direction = direction
+
+    def stop_moving_right(self):
+        pass
+
+    def stop_moving_right(self):
+        pass

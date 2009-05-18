@@ -36,3 +36,9 @@ class JumpingRightState(AbstractJumpState, AbstractMovingRightState):
 
     def _update_animation(self):
         pass
+
+    def move_left(self, level=None):
+        self.player.state.set_state(self.player.state.get_jumping_left_state(self.frame_count))
+
+    def stop_moving_left(self):
+        pass
