@@ -1,7 +1,8 @@
 from game.conf import PLAYER_FACING_RIGHT
 from game.sprites.player.abstract_jump_state import AbstractJumpState
+from game.sprites.player.abstract_moving_left_state import AbstractMovingLeftState
 
-class JumpingState(AbstractJumpState):
+class JumpingLeftState(AbstractJumpState, AbstractMovingLeftState):
     def __init__(self, player, frame_count):
         self.player = player
         self._right_animation = (self.player._STILL_RIGHT_FRAME)
@@ -19,18 +20,22 @@ class JumpingState(AbstractJumpState):
 
     def do_action(self, level):
         self.jump(level)
-
-    def move_right(self, level=None):
-        self.player.state.set_state(self.player.state.get_jumping_right_state(self.frame_count))
-
-    def move_left(self, level=None):
-        self.player.state.set_state(self.player.state.get_jumping_left_state(self.frame_count))
+        self.move_left(level)
 
     def fall(self, level=None):
-        self.player.state.set_state(self.player.state.get_falling_state())
+        self.player.state.set_state(self.player.state.get_falling_left_state())
     
+    def stop_moving_left(self):
+        self.player.state.set_state(self.player.state.get_jumping_state(self.frame_count))
+
     def grounded(self):
         self.player.state.set_state(self.player.state.get_grounded_state())
 
     def set_player_direction(self, direction):
         self.direction = direction
+
+    def _update_animation(self):
+        pass
+
+    def move_right(self, level=None):
+        pass

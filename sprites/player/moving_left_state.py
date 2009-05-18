@@ -1,6 +1,7 @@
 from game.sprites.player.abstract_moving_left_state import AbstractMovingLeftState
+from game.sprites.player.abstract_grounded_state import AbstractGroundedState
 
-class MovingLeftState(AbstractMovingLeftState):
+class MovingLeftState(AbstractMovingLeftState, AbstractGroundedState):
     "The state when the player is moving left."
     def __init__(self, player):
         self.player = player
@@ -14,24 +15,24 @@ class MovingLeftState(AbstractMovingLeftState):
 
     def do_action(self, level):
         self.move_left(level)
+        self.grounded(level)
 
     def _update_animation(self):
         """Updates the frame count and animation"""
         self.frame_count += 1
         
-        if self.frame_count == 8:
-            self.frame_count = 0
+        if (self.frame_count % 8) == 0:
             self.animation_index += 1
             if self.animation_index == len(self._animation):
                 self.animation_index = 0
         
     def move_right(self, level):
         "transition state to move right"
-        self.player.movement_state.set_movement_state(self.player.movement_state.get_move_right_state())
+        self.player.state.set_state(self.player.state.get_move_right_state())
 
     def stop_moving_left(self):
         "transition state to not moving"
-        self.player.movement_state.set_movement_state(self.player.movement_state.get_still_state())
+        self.player.state.set_state(self.player.state.get_still_state())
 
     def stop_moving_right(self):
         "player held down both left and right, ignore"
@@ -39,8 +40,14 @@ class MovingLeftState(AbstractMovingLeftState):
 
     def duck(self):
         "transition to ducking state"
-        self.player.movement_state.set_movement_state(self.player.movement_state.get_ducking_state())
+        self.player.state.set_state(self.player.state.get_ducking_state())
 
     def stop_ducking(self):
         "player held down multiple buttons, ignore"
         pass
+
+    def jump(self, level=None):
+        self.player.state.set_state(self.player.state.get_jumping_left_state())
+
+    def fall(self, level):
+        self.player.state.set_state(self.player.state.get_falling_left_state())

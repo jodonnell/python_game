@@ -1,6 +1,6 @@
 from pygame.sprite import spritecollide
 
-class GroundedState():
+class AbstractGroundedState():
     def __init__(self, player):
         self.player = player
     

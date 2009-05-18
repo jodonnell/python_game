@@ -10,7 +10,6 @@ class AbstractMovingRightState():
         move = self._get_right_movement_distance(level)
 
         if move == 0: # trying to move into wall
-            self.frame_count = 0
             self.animation_index = 0
             return
         

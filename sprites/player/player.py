@@ -1,6 +1,5 @@
 from game.sprites.sprite import Sprite
-from game.sprites.player.moving_states import MovingStates
-from game.sprites.player.aerial_states import AerialStates
+from game.sprites.player.states import States
 from game import conf
 from game import log
 import pygame
@@ -31,9 +30,7 @@ class Player(Sprite):
         Sprite.__init__(self, startPos)
         self.rect.left = startPos[0] - self.rect.width
 
-        self.movement_state = MovingStates(self)
-        self.aerial_state = AerialStates(self)
-
+        self.state = States(self)
    
     def load_frames(self):
         "Loads all the frames for the sprite"
@@ -67,14 +64,9 @@ class Player(Sprite):
             or input == self.control.get_right_key_pressed() 
             or input == self.control.get_right_key_released() 
             or input == self.control.get_duck_key_pressed() 
-            or input == self.control.get_duck_key_released() ):
-            return True
-        else:
-            return False
-        
-    def _is_jumping_key(self, input):
-        "Returns True if the key pressed or released was the jump key"
-        if input == self.control.get_jump_key_pressed() or input == self.control.get_jump_key_released():
+            or input == self.control.get_duck_key_released() 
+            or input == self.control.get_jump_key_pressed()
+            or input == self.control.get_jump_key_released()):
             return True
         else:
             return False
@@ -83,18 +75,15 @@ class Player(Sprite):
         "Takes a list of player key inputs and processes them"
         for input in inputs:
             if self._is_movement_key(input):
-                self.movement_state.process_input(input, level)
-            if self._is_jumping_key(input):
-                self.aerial_state.process_input(input, level)
+                self.state.process_input(input, level)
             
     def update(self, inputs, level):
         """First processes key events which could change player state.
         Then delegates to the player states to do the correct action for the state they are in.
         Then sets the correct frame for the next screen update."""
         self.process_input(inputs, level)
-        self.movement_state.do_action(level)
-        self.aerial_state.do_action(level)
-        self.change_image(self.movement_state.state.get_animation())
+        self.state.do_action(level)
+        self.change_image(self.state.state.get_animation())
  
     def change_image(self, new_frame):
         """Whenever the image is changed you should go through this method so 

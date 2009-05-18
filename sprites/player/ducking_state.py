@@ -19,11 +19,11 @@ class DuckingState():
 
     def move_left(self, level):
         "move left"
-        self.player.movement_state.set_movement_state(self.player.movement_state.get_move_left_state())
+        self.player.state.set_state(self.player.state.get_move_left_state())
 
     def move_right(self, level):
         "transition state to move right"
-        self.player.movement_state.set_movement_state(self.player.movement_state.get_move_right_state())
+        self.player.state.set_state(self.player.state.get_move_right_state())
 
     def stop_moving_left(self):
         "player held down multiple buttons, ignore"
@@ -39,4 +39,4 @@ class DuckingState():
 
     def stop_ducking(self):
         "stand up"
-        self.player.movement_state.set_movement_state(self.player.movement_state.get_still_state())
+        self.player.state.set_state(self.player.state.get_still_state())
