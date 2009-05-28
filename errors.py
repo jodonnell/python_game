@@ -1,0 +1,4 @@
+
+
+class AbstractClassError(Exception):
+    pass
