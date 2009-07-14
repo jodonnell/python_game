@@ -13,9 +13,10 @@ class MovingRightState(AbstractMovingRightState, AbstractGroundedState):
     def get_animation(self):
         return self._animation[self.animation_index]
 
-    def do_action(self, level):
-        self.move_right(level)
-        self.grounded(level)
+    def do_action(self):
+        x_move = self.move_right()
+        y_move = self.grounded()
+        return (x_move, y_move)
 
     def _update_animation(self):
         """Updates the frame count and animation"""
@@ -26,7 +27,7 @@ class MovingRightState(AbstractMovingRightState, AbstractGroundedState):
             if self.animation_index == len(self._animation):
                 self.animation_index = 0
 
-    def move_left(self, level):
+    def move_left(self):
         "transition state to move right"
         self.player.state.set_state(self.player.state.get_move_left_state())
 
@@ -46,8 +47,8 @@ class MovingRightState(AbstractMovingRightState, AbstractGroundedState):
         "player held down multiple buttons, ignore"
         pass
 
-    def jump(self, level=None):
+    def jump(self):
         self.player.state.set_state(self.player.state.get_jumping_right_state())
 
-    def fall(self, level):
+    def fall(self):
         self.player.state.set_state(self.player.state.get_falling_right_state())

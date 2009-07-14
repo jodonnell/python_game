@@ -19,19 +19,19 @@ class FallingState(AbstractFallingState):
         else:
             return self._left_animation
 
-    def do_action(self, level):
-        self.fall(level)
+    def do_action(self):
+        return (0, self.fall())
 
-    def jump(self, level):
+    def jump(self):
         pass
 
     def grounded(self):
         self.player.state.set_state(self.player.state.get_still_state())
 
-    def move_right(self, level=None):
+    def move_right(self):
         self.player.state.set_state(self.player.state.get_falling_right_state(self.frame_count))
 
-    def move_left(self, level=None):
+    def move_left(self):
         self.player.state.set_state(self.player.state.get_falling_left_state(self.frame_count))
 
     def set_player_direction(self, direction):
@@ -41,4 +41,7 @@ class FallingState(AbstractFallingState):
         pass
 
     def stop_moving_right(self):
+        pass
+
+    def dunk(self):
         pass

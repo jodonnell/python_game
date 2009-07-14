@@ -15,14 +15,14 @@ class StillState(AbstractGroundedState):
     def get_animation(self):
         return self._animation
 
-    def do_action(self, level):
-        self.grounded(level)
+    def do_action(self):
+        return (0, self.grounded())
 
-    def move_left(self, level):
+    def move_left(self):
         "move left"
         self.player.state.set_state(self.player.state.get_move_left_state())
 
-    def move_right(self, level):
+    def move_right(self):
         "transition state to move right"
         self.player.state.set_state(self.player.state.get_move_right_state())
 
@@ -42,8 +42,8 @@ class StillState(AbstractGroundedState):
         "player held down multiple buttons, ignore"
         pass
 
-    def jump(self, level):
+    def jump(self):
          self.player.state.set_state(self.player.state.get_jumping_state())   
 
-    def fall(self, level):
+    def fall(self):
         self.player.state.set_state(self.player.state.get_falling_state())

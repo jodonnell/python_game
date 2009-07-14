@@ -14,14 +14,14 @@ class DuckingState():
     def get_animation(self):
         return self._animation
 
-    def do_action(self, level):
+    def do_action(self):
         pass
 
-    def move_left(self, level):
+    def move_left(self):
         "move left"
         self.player.state.set_state(self.player.state.get_move_left_state())
 
-    def move_right(self, level):
+    def move_right(self):
         "transition state to move right"
         self.player.state.set_state(self.player.state.get_move_right_state())
 

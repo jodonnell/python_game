@@ -7,22 +7,22 @@ class AbstractGroundedState():
     def get_animation(self):
         return None
 
-    def do_action(self, level):
-        self.grounded(level)
+    def do_action(self):
+        return (0 self.grounded())
 
-    def jump(self, level):
+    def jump(self):
          self.player.aerial_state.set_aerial_state(self.player.aerial_state.get_jumping_state())   
 
-    def fall(self, level):
+    def fall(self):
         self.player.aerial_state.set_aerial_state(self.player.aerial_state.get_falling_state())
     
-    def grounded(self, level):
+    def grounded(self):
         "Check for ground underneath players feet, if not found switch to falling state"
         tmp = self.player.rect
         self.player.rect = self.player.rect.move(0, 1)
         collides = spritecollide(self.player, level.tile_group, False)
         if not collides:
-            self.fall(level)
+            self.fall()
             
         self.player.rect = tmp
 

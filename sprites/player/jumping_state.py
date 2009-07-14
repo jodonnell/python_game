@@ -17,16 +17,16 @@ class JumpingState(AbstractJumpState):
         else:
             return self._left_animation
 
-    def do_action(self, level):
-        self.jump(level)
+    def do_action(self):
+        return (0, self.jump())
 
-    def move_right(self, level=None):
+    def move_right(self):
         self.player.state.set_state(self.player.state.get_jumping_right_state(self.frame_count))
 
-    def move_left(self, level=None):
+    def move_left(self):
         self.player.state.set_state(self.player.state.get_jumping_left_state(self.frame_count))
 
-    def fall(self, level=None):
+    def fall(self):
         self.player.state.set_state(self.player.state.get_falling_state())
     
     def grounded(self):
@@ -34,3 +34,6 @@ class JumpingState(AbstractJumpState):
 
     def set_player_direction(self, direction):
         self.direction = direction
+
+    def duck(self):
+        pass

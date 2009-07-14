@@ -19,7 +19,6 @@ game_state = GameStates(display)
 game_loops = 0
 sum_fps = 0
 
-
 try:
     while 1:
         game_state.update()

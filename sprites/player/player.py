@@ -71,18 +71,25 @@ class Player(Sprite):
         else:
             return False
 
-    def process_input(self, inputs, level):
+    def process_input(self, inputs):
         "Takes a list of player key inputs and processes them"
         for input in inputs:
             if self._is_movement_key(input):
-                self.state.process_input(input, level)
+                self.state.process_input(input)
             
-    def update(self, inputs, level):
+    def update_player(self):
+        return self.state.do_action()
+
+    def update_player_pos(self, impeded_movement):
+        self.rect.left += impeded_movement[0]
+        self.rect.top += impeded_movement[1]
+
+    def update(self, inputs):
         """First processes key events which could change player state.
         Then delegates to the player states to do the correct action for the state they are in.
         Then sets the correct frame for the next screen update."""
-        self.process_input(inputs, level)
-        self.state.do_action(level)
+        self.process_input(inputs)
+        self.state.do_action()
         self.change_image(self.state.state.get_animation())
  
     def change_image(self, new_frame):

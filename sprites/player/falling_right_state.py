@@ -18,11 +18,10 @@ class FallingRightState(AbstractFallingState, AbstractMovingRightState):
         else:
             return self._left_animation
 
-    def do_action(self, level):
-        self.fall(level)
-        self.move_right(level)
-
-    def jump(self, level=None):
+    def do_action(self):
+        return (self.move_right(), self.fall())
+        
+    def jump(self):
         pass
     
     def stop_moving_right(self):
@@ -37,8 +36,11 @@ class FallingRightState(AbstractFallingState, AbstractMovingRightState):
     def _update_animation(self):
         pass
 
-    def move_left(self, level=None):
+    def move_left(self):
         self.player.state.set_state(self.player.state.get_falling_left_state(self.frame_count))
 
     def stop_moving_left(self):
+        pass
+
+    def duck(self):
         pass

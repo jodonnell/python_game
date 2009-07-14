@@ -5,11 +5,6 @@ class AbstractGroundedState():
     def __init__(self, player):
         raise errors.AbstractClassError()
     
-    def grounded(self, level):
+    def grounded(self):
         "Check for ground underneath players feet, if not found switch to falling state"
-        self.player.rect.bottom += 1
-        collides = spritecollide(self.player, level.tile_group, False)
-        if not collides:
-            self.fall(level)
-        
-        self.player.rect.bottom -= 1
+        return 1
