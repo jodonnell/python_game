@@ -71,6 +71,7 @@ class Level():
         return []
 
     def is_onscreen(self, sprite, view_left_bound, view_right_bound):
+        "Check to see if the given sprite is on the screen"
         sprite_to_right_of_view = sprite.get_right_edge() > view_left_bound
         sprite_to_left_of_view = sprite.get_left_edge() < view_right_bound
 
