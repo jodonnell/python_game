@@ -18,27 +18,39 @@ class View():
     to shift left or right.  It is also in charge of converting absolute coordinates
     to relative coordinates for drawing to the screen.
     """
-    def __init__(self, player_start, left_end_of_level, right_end_of_level):
+    def __init__(self, level):
+        self.level = level
         self._player_group = pygame.sprite.Group()
         self._tile_group = pygame.sprite.Group()
         self._enemy_group = pygame.sprite.Group()
         self._power_up_group = pygame.sprite.Group()
         
-        self._left_end_of_level = left_end_of_level
-        self._right_end_of_level = right_end_of_level
-
         # this assumes player starts in the middle
-        self._view_left_end_abs_pos = player_start[0] - (conf.SCREEN_WIDTH / 2)
-        self._view_right_end_abs_pos = player_start[0] + (conf.SCREEN_WIDTH / 2)
+        self._view_left_end_abs_pos = self.level.get_player_start_coord()[0] - (conf.SCREEN_WIDTH / 2)
+        self._view_right_end_abs_pos = self.level.get_player_start_coord()[0] + (conf.SCREEN_WIDTH / 2)
 
-        self._player = Player( ( (conf.SCREEN_WIDTH / 2), player_start[1] ), Control() )
+        self._player = Player( ( (conf.SCREEN_WIDTH / 2), self.level.get_player_start_coord()[1] ), Control() )
         self._player_group.add( self._player )
+
+        onscreen_tiles = self.level.get_onscreen_tiles(self.get_view_left_end(), self.get_view_right_end())
+        self.set_tile_group(onscreen_tiles)
 
     def update_player(self, inputs):
         self._player.process_input(inputs)
         unimpeded_movement = self._player.update_player()
         impeded_movement = self._check_for_collisions(unimpeded_movement)
         self._player.update_player_pos(impeded_movement)
+        self._move_view(impeded_movement)
+
+
+    def _move_view(self, move):
+        "This moves the view and updates whats onscreen"
+        tile_group = self.level.get_onscreen_tiles(self.get_view_left_end(), self.get_view_right_end())
+        enemy_group = self.level.get_onscreen_enemies(self.get_view_left_end(), self.get_view_right_end())
+        power_up_group = self.level.get_onscreen_power_ups(self.get_view_left_end(), self.get_view_right_end())
+
+        self.set_tile_group(tile_group)
+
 
     def _check_for_collisions(self, unimpeded_movement):
         # need to get players pos
