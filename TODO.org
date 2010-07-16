@@ -1,9 +1,13 @@
 
 
 * Game
-** Currently you can both duck and jump, must figure out how to have two seperate state machines talk
+** Currently you can both duck and jump, must figure out how to have two separate state machines talk
 ** Abstract states into usable by by other stateful objects as well as players
 ** Level init should use factory for object creation to append to level
 
 
 All onscreen objects must be able to return there right and left absolete edge
+** do_action returns the player movement.  this is not very sensible.
+*** view has access to all things to check for collisions so view must be able to get unimpeded movenent before it determines actual movement
+*** TODO one solution is to give the player access to all other objects via a registry
+** TODO UNIT TESTS MOTHERFUCKERA

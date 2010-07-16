@@ -26,3 +26,47 @@ draw player
 'PEP8
 
 
+
+
+left
+right
+fall
+jump
+shoot bubbles
+gain lives for levels
+points
+falling bottom of screen brings to top
+
+
+points
+-----
+bursting bubble gives points
+bouncing bubble gives points
+
+
+bubbles
+----
+moves forward then up (different paths for bubbles in levels)
+can bounce on
+can trap an enemy in a bubble, then burst the bubble to break
+can burst
+if not burst by player will pop and be ANGRY
+if pop multiple at same time point bonus + letters
+
+super bubbles (shoots down shit that will swoop up enemies and player) (brings enemy to bottom where is transformed into falling crystal)
+
+
+points
+random points appear onscreen in random places
+points appear from killing enemies
+
+enemies
+---
+can be angry
+
+platforms
+-------
+small
+can jump up through
+looks like they are like 10x10 blocks
+
